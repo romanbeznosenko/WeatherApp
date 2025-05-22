@@ -1,6 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -19,37 +18,21 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <SearchView
-            android:id="@+id/searchViewCity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:queryHint="Search for cities..."
-            android:background="@drawable/search_background" />
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone" />
-
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewCities"
+            android:id="@+id/recyclerViewFavorites"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_height="match_parent"
+            android:contentDescription="List of favorite cities"
+            android:scrollbars="vertical" />
 
         <TextView
-            android:id="@+id/textViewNoResults"
+            android:id="@+id/textViewNoFavorites"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:text="No cities found"
+            android:text="No favorite cities yet.\nAdd cities to favorites from the weather screen!"
             android:textSize="16sp"
             android:textColor="@color/secondary_text"
             android:visibility="gone" />
-
     </LinearLayout>
-
 </LinearLayout>

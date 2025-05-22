@@ -32,15 +32,33 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <TextView
-                    android:id="@+id/textViewCityName"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Berlin"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/primary_text"
-                    android:gravity="center" />
+                    android:layout_marginBottom="8dp">
+
+                    <TextView
+                        android:id="@+id/textViewCityName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="Berlin"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/primary_text" />
+
+                    <ImageButton
+                        android:id="@+id/buttonFavorite"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="Add to favorites"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_star_empty" />
+
+                </RelativeLayout>
 
                 <TextView
                     android:id="@+id/textViewAdminName"
@@ -160,7 +178,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="false"
-                    tools:listitem="@layout/item_hourly_weather" />
+                    tools:listitem="@layout/item_daily_weather" />
 
             </LinearLayout>
 
@@ -178,5 +196,4 @@
             android:visibility="gone" />
 
     </LinearLayout>
-
 </ScrollView>

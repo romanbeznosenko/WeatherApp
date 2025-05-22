@@ -2,6 +2,7 @@ package com.example.weatherapp;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,12 +25,15 @@ public class CityWeatherActivity extends AppCompatActivity {
             textViewCoordinates, textViewTimezone, textViewError;
     private RecyclerView recyclerViewHourly, recyclerViewDaily;
     private ProgressBar progressBar;
+    private ImageButton buttonFavorite;
 
     private HourlyWeatherAdapter hourlyAdapter;
     private DailyWeatherAdapter dailyAdapter;
+    private FavoritesManager favoritesManager;
 
     private String cityName, adminName, countryName;
     private double latitude, longitude;
+    private City currentCity;
 
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
 
@@ -41,6 +45,7 @@ public class CityWeatherActivity extends AppCompatActivity {
         initializeViews();
         extractIntentData();
         setupRecyclerViews();
+        setupFavoriteButton();
         displayCityInfo();
         fetchWeatherData();
     }
@@ -55,6 +60,9 @@ public class CityWeatherActivity extends AppCompatActivity {
         recyclerViewHourly = findViewById(R.id.recyclerViewHourly);
         recyclerViewDaily = findViewById(R.id.recyclerViewDaily);
         progressBar = findViewById(R.id.progressBar);
+        buttonFavorite = findViewById(R.id.buttonFavorite);
+
+        favoritesManager = FavoritesManager.getInstance(this);
     }
 
     private void extractIntentData() {
@@ -63,6 +71,14 @@ public class CityWeatherActivity extends AppCompatActivity {
         countryName = getIntent().getStringExtra("COUNTRY_NAME");
         latitude = getIntent().getDoubleExtra("LATITUDE", 0.0);
         longitude = getIntent().getDoubleExtra("LONGITUDE", 0.0);
+
+        currentCity = new City();
+        currentCity.setName(cityName);
+        currentCity.setAdminName(adminName);
+        currentCity.setCountry(countryName);
+        currentCity.setLat(latitude);
+        currentCity.setLng(longitude);
+        currentCity.setId((long) (cityName + latitude + longitude).hashCode());
     }
 
     private void setupRecyclerViews() {
@@ -76,6 +92,29 @@ public class CityWeatherActivity extends AppCompatActivity {
         recyclerViewDaily.setLayoutManager(dailyLayoutManager);
         dailyAdapter = new DailyWeatherAdapter(new ArrayList<>());
         recyclerViewDaily.setAdapter(dailyAdapter);
+    }
+
+    private void setupFavoriteButton() {
+        updateFavoriteIcon();
+
+        buttonFavorite.setOnClickListener(v -> {
+            if (favoritesManager.isFavorite(currentCity)) {
+                favoritesManager.removeFromFavorites(currentCity);
+                Toast.makeText(this, "Removed from favorites", Toast.LENGTH_SHORT).show();
+            } else {
+                favoritesManager.addToFavorites(currentCity);
+                Toast.makeText(this, "Added to favorites", Toast.LENGTH_SHORT).show();
+            }
+            updateFavoriteIcon();
+        });
+    }
+
+    private void updateFavoriteIcon() {
+        if (favoritesManager.isFavorite(currentCity)) {
+            buttonFavorite.setImageResource(R.drawable.ic_star_filled);
+        } else {
+            buttonFavorite.setImageResource(R.drawable.ic_star_empty);
+        }
     }
 
     private void displayCityInfo() {

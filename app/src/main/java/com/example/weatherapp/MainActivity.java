@@ -4,17 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,21 +40,51 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_page);
 
+        setupToolbar();
+        initializeViews();
+        setupRecyclerView();
+        loadCitiesFromCSV();
+        setupSearchView();
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Weather App");
+        }
+    }
+
+    private void initializeViews() {
         searchViewCity = findViewById(R.id.searchViewCity);
         recyclerViewCities = findViewById(R.id.recyclerViewCities);
         textViewNoResults = findViewById(R.id.textViewNoResults);
         progressBar = findViewById(R.id.progressBar);
+    }
 
+    private void setupRecyclerView() {
         recyclerViewCities.setLayoutManager(new LinearLayoutManager(this));
         cityAdapter = new CityAdapter(this, new ArrayList<>(), this::onCitySelected);
         recyclerViewCities.setAdapter(cityAdapter);
-
-        loadCitiesFromCSV();
-        setupSearchVew();
-
     }
 
-    private void setupSearchVew(){
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_favorites) {
+            Intent intent = new Intent(this, FavoritesActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void setupSearchView() {
         searchViewCity.setIconifiedByDefault(false);
 
         searchViewCity.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -77,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         searchViewCity.requestFocus();
     }
 
-    private void loadCitiesFromCSV(){
+    private void loadCitiesFromCSV() {
         showLoading(true);
 
         executorService.execute(() -> {
@@ -88,9 +115,9 @@ public class MainActivity extends AppCompatActivity {
             )) {
                 String line = reader.readLine();
 
-                while ((line = reader.readLine()) != null){
+                while ((line = reader.readLine()) != null) {
                     String[] tokens = line.split(",");
-                    if (tokens.length >= 11){
+                    if (tokens.length >= 11) {
                         String name = removeQuotes(tokens[0].trim());
                         String cityAscii = removeQuotes(tokens[1].trim());
                         Double lat = Double.parseDouble(removeQuotes(tokens[2].trim()));
@@ -117,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
                         cities.add(city);
                     }
                 }
-            } catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 
@@ -146,10 +173,10 @@ public class MainActivity extends AppCompatActivity {
         return input;
     }
 
-    private void filterCities(String query){
+    private void filterCities(String query) {
         List<City> filteredCities = new ArrayList<>();
 
-        if (query == null || query.isEmpty()){
+        if (query == null || query.isEmpty()) {
             cityAdapter.updateList(filteredCities);
             textViewNoResults.setVisibility(View.GONE);
             return;
@@ -157,26 +184,26 @@ public class MainActivity extends AppCompatActivity {
 
         String filterPattern = query.toLowerCase().trim();
 
-        for (City city: allCities){
+        for (City city : allCities) {
             if (city.getName().toLowerCase().contains(filterPattern) ||
-            city.getCountry().toLowerCase().contains(filterPattern) ||
-            city.getCityAscii().toLowerCase().contains(filterPattern)){
+                    city.getCountry().toLowerCase().contains(filterPattern) ||
+                    city.getCityAscii().toLowerCase().contains(filterPattern)) {
                 filteredCities.add(city);
             }
         }
 
         cityAdapter.updateList(filteredCities);
 
-        if (filteredCities.isEmpty()){
+        if (filteredCities.isEmpty()) {
             textViewNoResults.setVisibility(View.VISIBLE);
         } else {
             textViewNoResults.setVisibility(View.GONE);
         }
     }
 
-    private void showLoading(boolean isLoading){
+    private void showLoading(boolean isLoading) {
         progressBar.setVisibility(isLoading ? View.VISIBLE : View.GONE);
-        if (isLoading){
+        if (isLoading) {
             textViewNoResults.setVisibility(View.GONE);
         }
     }
@@ -185,6 +212,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, CityWeatherActivity.class);
 
         intent.putExtra("CITY_NAME", city.getName());
+        intent.putExtra("ADMIN_NAME", city.getAdminName());
         intent.putExtra("COUNTRY_NAME", city.getCountry());
         intent.putExtra("LATITUDE", city.getLat());
         intent.putExtra("LONGITUDE", city.getLng());
