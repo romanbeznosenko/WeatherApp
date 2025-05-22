@@ -1,0 +1,97 @@
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp"
+    android:background="@color/card_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="May 23"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary_text" />
+
+            <TextView
+                android:id="@+id/textViewDayName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Friday"
+                android:textSize="14sp"
+                android:textColor="@color/secondary_text" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/textViewTempRange"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="18° / 25°C"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/temperature_color" />
+
+            <TextView
+                android:id="@+id/textViewRainStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Light rain"
+                android:textSize="12sp"
+                android:textColor="@color/rain_color"
+                android:layout_marginTop="2dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="end">
+
+            <TextView
+                android:id="@+id/textViewAvgWind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12 km/h"
+                android:textSize="14sp"
+                android:textColor="@color/secondary_text" />
+
+            <TextView
+                android:id="@+id/textViewAvgVisibility"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="15 km"
+                android:textSize="12sp"
+                android:textColor="@color/secondary_text"
+                android:layout_marginTop="2dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

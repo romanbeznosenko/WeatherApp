@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">WeatherApp</string>
+    <string name="appTitle">Weather</string>
+    <string name="no_cities_found">No cities found</string>
+</resources>

@@ -1,0 +1,65 @@
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="120dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp"
+    android:background="@color/card_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/textViewTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="14:00"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary_text" />
+
+        <TextView
+            android:id="@+id/textViewTemperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="22°C"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/temperature_color"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/textViewWind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15 km/h"
+            android:textSize="12sp"
+            android:textColor="@color/secondary_text"
+            android:layout_marginTop="4dp" />
+
+        <TextView
+            android:id="@+id/textViewRain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.5 mm"
+            android:textSize="12sp"
+            android:textColor="@color/rain_color"
+            android:layout_marginTop="2dp" />
+
+        <TextView
+            android:id="@+id/textViewVisibility"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10 km"
+            android:textSize="11sp"
+            android:textColor="@color/secondary_text"
+            android:layout_marginTop="2dp" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
